@@ -15,19 +15,13 @@ if __name__ == '__main__':
         for name in os.listdir(rt):
 
             path = os.path.join(rt, name)
+            path = os.path.abspath(path)
             if os.path.isfile(path):
                 continue
             elif 'config.ini' not in os.listdir(path):
                 continue
 
-            sys.stdout.write(path)
-
-            if slurm.Job.validate(top)\
-                    and vasp.Relaxation.validate(top):
-                job = slurm.Job(top)
-                rel = vasp.Relaxation(top)
-            else:
-                continue
+            sys.stdout.write(path+'\n')
 
 
 
