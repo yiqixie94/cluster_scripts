@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+import subprocess
 import argparse
 
 
@@ -28,13 +29,14 @@ if __name__ == '__main__':
         os.chdir(path)
         dpath_submit = os.path.join(path, 'outdir/submit')
         fpath_submit = None
-        for name in os.listdir(dpath_submit):
-            if name.startswith('analysis') and name.endswith('.sh'):
-                fpath_submit = os.path.join(dpath_submit, name)
+        if os.path.exists(dpath_submit):
+            for name in os.listdir(dpath_submit):
+                if name.startswith('analysis') and name.endswith('.sh'):
+                    fpath_submit = os.path.join('outdir/submit', name)
         if fpath_submit is None:
             sys.stderr.write('WARNING: submit script not found, for \"{}\"\n'.format(path))
             continue
-
+        
         try:
             subprocess.check_output(['sbatch', fpath_submit])
             n_submit += 1
